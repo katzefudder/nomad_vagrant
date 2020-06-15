@@ -1,0 +1,7 @@
+---
+
+nomad_path: "/usr/local/bin"
+nomad_version: "0.11.3"
+nomad_architecture: "linux_amd64"
+
+nomad_data_dir: "/opt/nomad"

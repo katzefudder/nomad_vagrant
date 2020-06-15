@@ -1,0 +1,51 @@
+---
+#- file: path=/home/pi/.config/autostart/ state=directory
+
+- name: get nomad software
+  get_url:
+    url: "https://releases.hashicorp.com/nomad/{{ nomad_version }}/nomad_{{ nomad_version }}_{{ nomad_architecture }}.zip"
+    dest: "/tmp/nomad.zip"
+    checksum: "sha256:https://releases.hashicorp.com/nomad/{{ nomad_version }}/nomad_{{ nomad_version }}_SHA256SUMS"
+  register: nomad_download_status
+
+- name: create nomad etc directory
+  file:
+    path: "/etc/nomad.d"
+    state: directory
+    mode: "0700"
+
+- name: create nomad data directory
+  file:
+    path: "{{ nomad_data_dir }}"
+    state: directory
+    mode: "0700"
+
+- name: "Extract nomad.zip into {{ nomad_path }}"
+  unarchive:
+    src: "/tmp/nomad.zip"
+    dest: "{{ nomad_path }}"
+    remote_src: yes
+
+- name: create nomad service
+  template:
+    src: "templates/nomad.service.j2"
+    dest: "/etc/systemd/system/nomad.service"
+  notify: enable service nomad
+
+- name: create nomad configuration
+  template:
+    src: "templates/nomad.hcl.j2"
+    dest: "/etc/nomad.d/nomad.hcl"
+  notify: reload service nomad
+
+- name: create nomad server configuration
+  template:
+    src: "templates/server.hcl.j2"
+    dest: "/etc/nomad.d/server.hcl"
+  notify: reload service nomad
+
+- name: create nomad client configuration
+  template:
+    src: "templates/client.hcl.j2"
+    dest: "/etc/nomad.d/client.hcl"
+  notify: reload service nomad

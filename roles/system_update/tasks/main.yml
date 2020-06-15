@@ -1,0 +1,21 @@
+---
+- name: Update APT cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Perform upgrade of all packages to the latest version
+  apt:
+    upgrade: dist
+
+- name: Check if a reboot is required
+  stat: path=/var/run/reboot-required get_md5=no
+  register: reboot_flag
+
+- name: Reboot the server is needed
+  reboot:
+    reboot_timeout: 300
+  when: reboot_flag.stat.exists == true
+
+- debug:
+    msg: "Server is back up and running"

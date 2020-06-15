@@ -1,0 +1,10 @@
+- name: Install Nomad
+  hosts: nomads
+  #vars_files:
+  #  - "{{ vaultfile }}"
+  become: yes
+  # see inventory for installing what package on what device
+  roles:
+    - system_update
+    - basic
+    - nomad

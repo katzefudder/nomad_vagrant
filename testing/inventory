@@ -1,0 +1,12 @@
+nomad ansible_host=192.168.100.101
+
+[all:vars]
+stage=testing
+
+[nomads]
+nomad
+
+[nomads:vars]
+ansible_connection=ssh
+ansible_ssh_user=vagrant
+ansible_ssh_pass=

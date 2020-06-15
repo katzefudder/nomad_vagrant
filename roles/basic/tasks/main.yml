@@ -1,0 +1,4 @@
+---
+
+- include: motd.yml
+- include: install.yml

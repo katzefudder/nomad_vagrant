@@ -1,0 +1,17 @@
+---
+galaxy_info:
+  author: Florian Dehn
+  description: Provide system update.
+  company: your company (optional)
+  license: GPLv2
+  min_ansible_version: 1.0
+  platforms:
+  - name: Ubuntu
+    versions:
+    - all
+  - name: Debian
+    versions:
+    - all
+  categories:
+  - system
+dependencies: []
